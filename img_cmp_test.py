@@ -61,13 +61,13 @@ def classify(img):
     
     if eingang <= TH_EIN:
         erg = "E"
-    if ausgang <= TH_AUS:
+    elif ausgang <= TH_AUS:
         erg = "L"
 
     return ausgang, eingang, erg
     
 def curl_post(date, ewert, awert, erg, img_path):
-    cmd="""curl -i -X POST -H "Content-Type: multipart/form-data" -F "datum={0}" -F "eingangswert={1}" -F "ausgangswert={2}" -F "computer={3}" -F "event=@{4}" http://localhost:9000/events/new/""".format(date,ewert,awert,erg,img_path)
+    cmd="""curl -i -X POST -H "Content-Type: multipart/form-data" -F "datum={0}" -F "eingangswert={2}" -F "ausgangswert={1}" -F "computer={3}" -F "event=@{4}" http://localhost:9000/events/new/""".format(date,ewert,awert,erg,img_path)
     print(cmd)
 
 def createdate(string):
