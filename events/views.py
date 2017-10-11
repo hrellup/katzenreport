@@ -19,3 +19,5 @@ def events_new(request):
         form = EventForm()
     return render(request, 'events/event_form.html', {'form': form})
 
+def stats(request):
+    return render(request, 'events/stats.html')
