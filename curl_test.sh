@@ -1,0 +1,1 @@
+curl -i -X POST -H "Content-Type: multipart/form-data" -F "datum=2017-10-10 07:37:37" -F "eingangswert=30.0" -F "ausgangswert=98.0" -F "computer=E" -F "event=@/home/fabian/real_world_examples.jpg" http://localhost:9000/events/new/
