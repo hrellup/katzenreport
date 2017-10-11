@@ -8,8 +8,10 @@ class Event(models.Model):
   ENTER = 'E'
   LEAVE = 'L'
   OTHER = 'O'
+  GLOSS = 'G'
+  UNCLEAR = 'U'
 
-  EVENTS_CHOICES = ((ENTER, 'Zutritt'),( LEAVE, 'Ausgang'),( OTHER, 'sonstige'))
+  EVENTS_CHOICES = ((ENTER, 'Zutritt'),( LEAVE, 'Ausgang'),( OTHER, 'sonstiges'), (GLOSS, 'Licht'), (UNCLEAR, 'Unklar'))
   
   datum =  models.DateTimeField()
   eingangswert = models.IntegerField(default=0)
@@ -26,7 +28,7 @@ class Event(models.Model):
   bild.allow_tags = True
 
   def cmp_check(self):
-    if self.mensch in ['E','L','O']:
+    if self.mensch in ['E','L','O','G','U']:
         return bool(self.mensch==self.computer)
     return None
 

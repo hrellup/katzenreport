@@ -4,6 +4,7 @@ import math
 import operator
 import sys
 import os
+from datetime import datetime
 
 #Threshold
 TH_AUS=190
@@ -30,18 +31,6 @@ def img_cmp_crop(img):
     rmse = math.sqrt(reduce(operator.add,map(lambda a,b: (a-b)**2, avg_eingang_crop, h2))/len(h2))
     return (round(rmsa), round(rmse))
 
-
-
-
-def classify(img):
-    ausgang, eingang = img_cmp_crop(img)
-    
-    if eingang <= TH_EIN:
-        return ausgang, eingang, "Eingang"
-    if ausgang <= TH_AUS:
-        return ausgang, eingang, "Ausgang"
-    return False
-
 def avg(path):
     histo_list = []
 
@@ -64,25 +53,40 @@ def avg_crop(path):
     hist_len = len(histo_list) *1.0
     avg_list = [round(sum(x)/hist_len,2) for x in zip(*histo_list)]
     return avg_list
+    
+def classify(img):
+
+    ausgang, eingang = img_cmp_crop(img)
+    erg = "O"
+    
+    if eingang <= TH_EIN:
+        erg = "E"
+    if ausgang <= TH_AUS:
+        erg = "L"
+
+    return ausgang, eingang, erg
+    
+def curl_post(date, ewert, awert, erg, img_path):
+    cmd="""curl -i -X POST -H "Content-Type: multipart/form-data" -F "datum={0}" -F "eingangswert={1}" -F "ausgangswert={2}" -F "computer={3}" -F "event=@{4}" http://localhost:9000/events/new/""".format(date,ewert,awert,erg,img_path)
+    print(cmd)
+
+def createdate(string):
+    datetime_object = datetime.strptime(string.split("-")[0], '%Y%m%d%H%M%S')
+    return  datetime_object.strftime('%Y-%m-%d %H:%M:%S')
 
 if __name__ == "__main__":
     
+    eingang = '/home/fabian/dev/katzenklappe/katzenreport/testimg/eingang/'
+    ausgang = '/home/fabian/dev/katzenklappe/katzenreport/testimg/ausgang/'
+    licht = '/home/fabian/dev/katzenklappe/katzenreport/testimg/licht/'  
     
-    eingang = 'testimg/eingang/'
-    ausgang = 'testimg/ausgang/'
-    licht = 'testimg/licht/'
-    #print avg_crop(eingang)
-    #print avg_crop(ausgang)
-    
-    print("eingang" + "-"*80)
     for filename in os.listdir(eingang):
         value = classify(eingang+filename)
-        print( str(value))
-    print("ausgang" + "-"*80)
+        curl_post(createdate(filename),value[0],value[1],value[2],eingang+filename)
     for filename in os.listdir(ausgang):
         value = classify(ausgang+filename)
-        print( str(value))
-    print("licht" + "-"*80)
+        curl_post(createdate(filename),value[0],value[1],value[2],ausgang+filename)
     for filename in os.listdir(licht):
         value = classify(licht+filename)
-        print( str(value) )
+        curl_post(createdate(filename),value[0],value[1],value[2],licht+filename)
+        
