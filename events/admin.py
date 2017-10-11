@@ -13,7 +13,7 @@ class EventAdmin(admin.ModelAdmin):
     list_filter = ('computer','mensch')
     list_editable = ('mensch',)
     list_link = ('admin_image',)
-    list_display = ('bild', 'datum', 'eingangswert', 'ausgangswert', 'computer', 'mensch', 'cmp_check')
+    list_display = ('datum', 'eingangswert', 'ausgangswert', 'computer','bild',  'mensch', 'cmp_check')
 
 
 admin.site.register(Event, EventAdmin)
