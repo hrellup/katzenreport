@@ -1,5 +1,10 @@
+#Pic
+/uploads/events/
+/testimg/
+
 # Database
 db.sqlite3
+events/migrations/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
