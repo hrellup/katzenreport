@@ -1,0 +1,37 @@
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+
+    {{ form.non_field_errors }}
+   <div class="fieldWrapper">
+            {{ form.datum.errors }}
+            <label for="{{ form.datum.id_for_label }}">datum:</label>
+            {{ form.datum }}
+    </div>
+
+     <div class="fieldWrapper">
+            {{ form.eingangswert.errors }}
+            <label for="{{ form.eingangswert.id_for_label }}">eingangswert:</label>
+            {{ form.eingangswert }}
+    </div>
+  
+     <div class="fieldWrapper">
+            {{ form.ausgangswert.errors }}
+            <label for="{{ form.ausgangswert.id_for_label }}">ausgangswert:</label>
+            {{ form.ausgangswert }}
+    </div>
+     <div class="fieldWrapper">
+            {{ form.computer.errors }}
+            <label for="{{ form.computer.id_for_label }}">computer:</label>
+            {{ form.computer }}
+    </div>
+    
+         <div class="fieldWrapper">
+            {{ form.event.errors }}
+            <label for="{{ form.event.id_for_label }}">event:</label>
+            <input type="file" name="event">
+    </div>
+
+    <button type="submit">Upload</button>
+  </form>
+
+{% endblock %}
