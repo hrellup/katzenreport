@@ -25,7 +25,7 @@ SECRET_KEY = 'h%k@c$p2#1czwt*@enwsamhci=_!awsnb9nh@i^lo2$*gs+woa'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['raspberry']
 
 
 # Application definition
