@@ -57,7 +57,7 @@ def avg_crop(path):
 def classify(img):
 
     ausgang, eingang = img_cmp_crop(img)
-    erg = "O"
+    erg = "N"
     
     if eingang <= TH_EIN:
         erg = "E"

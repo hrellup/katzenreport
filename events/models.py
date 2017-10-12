@@ -10,14 +10,16 @@ class Event(models.Model):
   OTHER = 'O'
   GLOSS = 'G'
   UNCLEAR = 'U'
+  NOCLASS = 'N'
 
-  EVENTS_CHOICES = ((ENTER, 'Zutritt'),( LEAVE, 'Ausgang'),( OTHER, 'sonstiges'), (GLOSS, 'Licht'), (UNCLEAR, 'Unklar'))
+  HEVENTS_CHOICES = ((ENTER, 'Zutritt'),( LEAVE, 'Ausgang'),( OTHER, 'sonstiges'), (GLOSS, 'Licht'), (UNCLEAR, 'Unklar'))
+  CEVENTS_CHOICES = ((ENTER, 'Zutritt'),( LEAVE, 'Ausgang'),( NOCLASS, 'keine Zuordnung'))
   
   datum =  models.DateTimeField()
   eingangswert = models.IntegerField(default=0)
   ausgangswert = models.IntegerField(default=0)
-  mensch = models.CharField(max_length=1, choices=EVENTS_CHOICES, blank=True)
-  computer = models.CharField(max_length=1, choices=EVENTS_CHOICES)
+  mensch = models.CharField(max_length=1, choices=HEVENTS_CHOICES, blank=True)
+  computer = models.CharField(max_length=1, choices=CEVENTS_CHOICES)
   event = models.ImageField(upload_to='events/')
   
   def bild(self):
@@ -28,6 +30,8 @@ class Event(models.Model):
   bild.allow_tags = True
 
   def cmp_check(self):
+    if self.computer in ['N']:
+        return None
     if self.mensch in ['E','L','O','G','U']:
         return bool(self.mensch==self.computer)
     return None
